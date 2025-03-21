@@ -6,10 +6,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.calleme.Database.FetchDoctorsScreen
+import com.example.calleme.Database.FetchHospitalsScreen
 import com.example.calleme.EmergencyButton.AffectedAreaBack
 import com.example.calleme.EmergencyButton.AffectedAreaFront
 import com.example.calleme.EmergencyButton.FormScreen
 import com.example.calleme.EmergencyButton.HospitalFinderScreen
+
 
 
 
@@ -27,5 +29,6 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
         composable("formScreen") { FormScreen(navController) }
         //composable("findHospitals") { HospitalFinderScreen(navController) }
         composable("fetch") { FetchDoctorsScreen(navController) }
+        composable("fetchHospital") { FetchHospitalsScreen(navController) }
     }
 }
