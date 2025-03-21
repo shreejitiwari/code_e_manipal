@@ -31,6 +31,8 @@ import com.example.calleme.ui.theme.GreenPrimary
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import com.example.calleme.navigation.NavigationFlow
+import com.example.calleme.navigation.navigateFromAffectedAreaFront
 
 @Composable
 fun AffectedAreaFront(navController: NavController) {
@@ -108,7 +110,7 @@ fun AffectedAreaFront(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { navController.navigate("affectedAreaBack") },
+            onClick = { navigateFromAffectedAreaFront(navController) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),

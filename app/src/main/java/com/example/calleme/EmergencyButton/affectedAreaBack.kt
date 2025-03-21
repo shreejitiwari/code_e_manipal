@@ -26,6 +26,8 @@ import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
+import com.example.calleme.navigation.NavigationFlow
+import com.example.calleme.navigation.navigateFromAffectedAreaBack
 
 @Composable
 fun AffectedAreaBack(navController: NavController) {
@@ -98,7 +100,7 @@ fun AffectedAreaBack(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { navController.navigate("FormScreen") },
+            onClick = { navigateFromAffectedAreaBack(navController) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),

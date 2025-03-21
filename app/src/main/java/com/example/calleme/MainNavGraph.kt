@@ -9,6 +9,7 @@ import com.example.calleme.Database.FetchDoctorsScreen
 import com.example.calleme.Database.FetchHospitalsScreen
 import com.example.calleme.EmergencyButton.AffectedAreaBack
 import com.example.calleme.EmergencyButton.AffectedAreaFront
+import com.example.calleme.EmergencyButton.EmergencyFormScreen
 import com.example.calleme.EmergencyButton.FormScreen
 import com.example.calleme.EmergencyButton.HospitalFinderScreen
 
@@ -27,6 +28,7 @@ fun MainNavGraph(navController: NavHostController, modifier: Modifier = Modifier
         composable("affectedAreafront") { AffectedAreaFront(navController) }
         composable("affectedAreaBack") { AffectedAreaBack(navController) }
         composable("formScreen") { FormScreen(navController) }
+        composable("emergencyFormScreen") { EmergencyFormScreen(navController) }
         //composable("findHospitals") { HospitalFinderScreen(navController) }
         composable("fetch") { FetchDoctorsScreen(navController) }
         composable("fetchHospital") { FetchHospitalsScreen(navController) }

@@ -27,6 +27,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.navigation.NavController
+import com.example.calleme.navigation.NavigationFlow
+import com.example.calleme.navigation.navigateByFlow
 
 
 @Composable
@@ -109,12 +111,14 @@ fun ActionButtons(navController: NavController) {
             color = Color(0xFFFFA8A8),
             icon = R.drawable.alert,
             onClick = {
-                navController.navigate("affectedAreafront")
+                navigateByFlow(navController, NavigationFlow.EMERGENCY)
             }
         )
         ButtonCard(
             title = "Book Appointment", color = Color(0xFF74E0A1), icon = R.drawable.search,
-            onClick = { navController.navigate("affectedAreafront")}
+            onClick = {
+                navigateByFlow(navController, NavigationFlow.BOOKING)
+            }
         )
     }
 }

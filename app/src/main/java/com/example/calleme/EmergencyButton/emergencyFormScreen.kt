@@ -9,13 +9,10 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.widget.TimePicker
-import android.widget.DatePicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.*
 import androidx.compose.foundation.verticalScroll
@@ -38,12 +35,9 @@ import androidx.compose.ui.unit.sp
 import com.example.calleme.navigation.NavigationFlow
 import com.example.calleme.navigation.navigateFromFormScreen
 import com.example.calleme.ui.theme.GreenPrimary
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
-fun FormScreen(navController: NavHostController) {
+fun EmergencyFormScreen(navController: NavHostController) {
     val context = LocalContext.current
 
     // Initialize Calendar inside the function
@@ -149,35 +143,8 @@ fun FormScreen(navController: NavHostController) {
             Text(" Record Audio")
         }
 
-        //DatePicker
-        OutlinedTextField(
-            value = dateState.value,
-            onValueChange = {},
-            label = { Text("Choose Date") },
-            trailingIcon = {
-                IconButton(onClick = { datePickerDialog.show() }) {
-                    Icon(Icons.Default.CalendarToday, contentDescription = "Choose Date")
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
         Spacer(modifier = Modifier.height(10.dp))
 
-        // **Time Picker**
-        OutlinedTextField(
-            value = timeState.value,
-            onValueChange = {},
-            label = { Text("Choose Time") },
-            trailingIcon = {
-                IconButton(onClick = { timePickerDialog.show() }) {
-                    Icon(Icons.Default.AccessTime, contentDescription = "Choose Time")
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
 
         // **Location Picker**
         OutlinedTextField(
@@ -264,25 +231,6 @@ fun FormScreen(navController: NavHostController) {
     }
 }
 
-@SuppressLint("MissingPermission")
-fun getCurrentLocation(
-    context: Context,
-    fusedLocationClient: FusedLocationProviderClient,
-    onLocationFetched: (String) -> Unit
-) {
-    if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED
-    ) {
-        return
-    }
-
-    fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-        location?.let {
-            val latLng = "Lat: ${it.latitude}, Lng: ${it.longitude}"
-            onLocationFetched(latLng)
-        } ?: onLocationFetched("Location not found")
-    }
-}
 
 /*fun uploadFilesAndAudio(context: Context, filesList: List<Uri>) {
     CoroutineScope(Dispatchers.Main).launch {
