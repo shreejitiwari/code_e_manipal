@@ -277,16 +277,24 @@ fun PreviewFetchDoctorsScreen() {
 package com.example.calleme.Database
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.animation.core.copy
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.calleme.navigation.navigateFromAffectedAreaBack
+import com.example.calleme.ui.theme.GreenPrimary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -320,7 +328,9 @@ fun FetchDoctorsScreen(navController: NavController) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
         OutlinedTextField(
             value = searchText,
             onValueChange = { searchText = it },
@@ -330,9 +340,12 @@ fun FetchDoctorsScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
         if (isLoading) {
             CircularProgressIndicator()
-        } else {
-            filteredDoctors.forEach { doctor ->
-                DoctorCard(doctor)
+        }
+        else {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(filteredDoctors) { doctor -> // Use items here
+                    DoctorCard(doctor)
+                }
             }
         }
     }
@@ -340,20 +353,65 @@ fun FetchDoctorsScreen(navController: NavController) {
 
 @Composable
 fun DoctorCard(doctor: Doctor) {
-    Row(modifier = Modifier.fillMaxWidth().clickable {}.padding(8.dp)) {
-        AsyncImage(
-            model = doctor.profilePhoto,
-            contentDescription = "Doctor Profile",
-            modifier = Modifier.size(50.dp).padding(end = 10.dp)
-        )
-        Column {
-            Text(text = doctor.name, style = MaterialTheme.typography.bodyLarge)
-            Text(text = doctor.specialization ?: "Unknown", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
-            Text(text = "${doctor.experience} Years Experience", style = MaterialTheme.typography.bodySmall)
-            Row {
-                Text(text = "⭐ ${doctor.rating ?: "N/A"}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.secondary)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = if (doctor.isAvailable) "🟢 Available Now" else "🔴 Not Available", style = MaterialTheme.typography.bodySmall)
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 5.dp), // Reduced vertical padding
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ){
+        Column (modifier = Modifier
+            .fillMaxWidth()
+            .clickable {}
+            .padding(12.dp)){
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .clickable {}
+                ) {
+                AsyncImage(
+                    model = doctor.profilePhoto,
+                    contentDescription = "Doctor Profile",
+                    modifier = Modifier
+                        .size(100.dp)
+                        .padding(end = 12.dp)
+                )
+                Column {
+                    Text(text = doctor.name, style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = doctor.specialization ?: "Unknown",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = "${doctor.experience} Years Experience",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Row {
+                        Text(
+                            text = "⭐ ${doctor.rating ?: "N/A"}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if (doctor.isAvailable) "🟢 Available Now" else "🔴 Not Available",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
+            Button(
+                onClick = {
+                    Toast.makeText(context, "Appointment Booked !", Toast.LENGTH_SHORT).show()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary)
+            )
+            {
+                Text("Book Appointment")
             }
         }
     }
