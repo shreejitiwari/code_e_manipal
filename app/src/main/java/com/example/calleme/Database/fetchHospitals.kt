@@ -106,11 +106,6 @@ fun HospitalCard(hospital: Hospital) {
                 Column {
                     Text(text = hospital.name, style = MaterialTheme.typography.bodyLarge)
                     Text(
-                        text = hospital.location,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
                         text = "${hospital.city}, ${hospital.state}",
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -122,7 +117,7 @@ fun HospitalCard(hospital: Hospital) {
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = if (hospital.haveErDept) "🟢 Emergency Available" else "🔴 No Emergency",
+                            text = if (hospital.haveErDept?:false) "🟢 Emergency Available" else "🔴 No Emergency",
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -151,12 +146,6 @@ suspend fun fetchHospitalsFromSupabase(): List<Hospital> {
                 .from("hospitals")
                 .select()
                 .decodeList<Hospital>()
-                .map { hospital ->
-                    hospital.copy(
-                        ratings = hospital.ratings ?: 0.0f, // Default rating if null
-                        haveErDept = hospital.haveErDept ?: false // Default if null
-                    )
-                }
         }
     } catch (e: Exception) {
         Log.e("Supabase Error", "Error fetching hospitals: ${e.message}")

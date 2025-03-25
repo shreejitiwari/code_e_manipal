@@ -245,6 +245,7 @@ fun FormScreen(navController: NavHostController) {
         Button(onClick = {
         /* Upload Logic */
             //uploadFilesAndAudio(context, filesList)
+
         }
             ,colors = ButtonDefaults.buttonColors(containerColor = GreenPrimary)) {
             Icon(Icons.Default.CloudUpload, contentDescription = "Upload Files")

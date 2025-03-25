@@ -9,15 +9,7 @@ var currentFlow: NavigationFlow? = null
 fun navigateByFlow(navController: NavController, flow: NavigationFlow) {
     // Set the global flow variable
     currentFlow = flow
-
-    when (flow) {
-        NavigationFlow.EMERGENCY -> {
-            navController.navigate("affectedAreaFront")
-        }
-        NavigationFlow.BOOKING -> {
-            navController.navigate("affectedAreaFront")
-        }
-    }
+    navController.navigate("affectedAreaFront")
 }
 
 fun navigateFromAffectedAreaFront(navController: NavController) {
